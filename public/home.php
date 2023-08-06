@@ -7,9 +7,24 @@
 </head>
 <body>
     <h1>Home</h1>
+    <form action=""method="post">
+    
     <?php 
     session_start();
     echo $_SESSION['name'].'<br>';
-    echo $_SESSION['email'];?>
+    echo $_SESSION['email'];
+    ?>
+    <br>
+
+    <button type="" name='submit'>Logout</button>
+</form>
 </body>
 </html>
+<?php
+if(isset($_POST['submit'])){
+    
+    session_destroy();
+    header('location:login.php');
+    exit();
+}
+?>

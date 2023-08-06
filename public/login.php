@@ -1,5 +1,6 @@
 <?php
 include('connect.php');
+session_start();
 if($_SERVER["REQUEST_METHOD"]=='POST'){
     $error="";
 $email=$_POST['email'];
@@ -7,6 +8,10 @@ $pas=md5($_POST['password']);
 
 $loginq="SELECT * FROM Signup where email='$email' and password='$pas'";
 $result=mysqli_query($connections,$loginq);
+
+$array=mysqli_fetch_assoc($result);
+$_SESSION['name']=$array['name'];
+$_SESSION['email']=$array['email'];
 $logincount=mysqli_num_rows($result);
 if($logincount!=1){
     $error="incorrect credentials";
