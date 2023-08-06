@@ -1,3 +1,24 @@
+<?php
+include('connect.php');
+if($_SERVER["REQUEST_METHOD"]=='POST'){
+    $error="";
+$email=$_POST['email'];
+$pas=$_POST['password'];
+
+$loginq="SELECT * FROM Signup where email='$email' and password='$pas'";
+$result=mysqli_query($connections,$loginq);
+$logincount=mysqli_num_rows($result);
+if($logincount!=1){
+    $error="incorrect credentials";
+}
+
+}
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,11 +78,26 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+                <p><?php echo $error ; ?> </p>
             </div>
             <div class="form-group">
-                <button type="submit">Login</button>
+                <button type="submit" name="submit">Login</button>
             </div>
         </form>
     </div>
 </body>
 </html>
+<?php
+if($error==""){
+if(isset($_POST['submit'])){
+    $insertq="INSERT INTO Login (email,password) values ('$email','$pas')";
+    $result1=mysqli_query($connections,$insertq);
+    if($result1){
+        header('location:home.php');
+    }
+    
+}
+}
+
+?>
+

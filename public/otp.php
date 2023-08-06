@@ -89,7 +89,8 @@ if(isset($_POST['submit'])){
             
             $name=$_SESSION['name'];
             $email=$_SESSION['email'];
-            $pass=md5($_SESSION['pass']);
+            $pass=($_SESSION['pass']);
+            $passs=md5($pass);
             
         
             $insertq="INSERT INTO Signup (name, email,password) VALUES('$name','$email','$pass')";
@@ -99,7 +100,7 @@ if(isset($_POST['submit'])){
             header('location:login.php');
             }
             else {
-                    echo "Error: " . mysqli_error($connection);
+                    echo "Error: " . mysqli_error($connections);
             }
         
         }

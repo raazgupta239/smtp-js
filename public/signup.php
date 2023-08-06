@@ -1,6 +1,7 @@
 <?php
+include ('connect.php');
 $name=$email=$pass=$cpass="";
-$nameerr=$emailerr=$passerr=$cpasserr="";
+$nameerr=$emailerr=$passerr=$cpasserr=$err="";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(empty($_POST['name'])){
         $nameerr="Username cannot be empty!";
@@ -32,6 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }   
         if($_POST['pass']!=$_POST['cpass']){
         $cpasserr="Password and confirm password doesnot match";
+    }
+    $email=$_POST['email'];
+    $emailq= "SELECT * FROM Signup WHERE email='$email'";
+
+    $result=mysqli_query($connections,$emailq);
+
+    $emailcount=mysqli_num_rows($result);
+    if($emailcount>0){
+        $err="email already exists.. please login";
     }
     
 }
@@ -107,7 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="cpass" >
-                <p><?php echo $cpasserr?></p>
+                <p><?php echo $cpasserr ;?></p>
+                <p><?php echo $err ;?></p>
             </div>
             <button type="submit"name="submit" >Sign Up</button>
         </form>
@@ -117,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
 <?php
-   if($nameerr=="" && $emailerr=="" &&$passerr=="" && $cpasserr==""){
+   if($nameerr=="" && $emailerr=="" &&$passerr=="" && $cpasserr==""&& $err==""){
        if(isset($_POST['submit'])){
            session_start();
         $name=$_POST['name'];
