@@ -2,8 +2,8 @@
 session_start();
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     $otperr="";
-    $a=$_POST['otp'];
-    if($_SESSION['otp']==$a){
+    // $a=$_POST['otp'];
+    if($_SESSION['otp']==$_POST['otp']){
         $otperr="";
     }
    else{
@@ -89,18 +89,19 @@ if(isset($_POST['submit'])){
             
             $name=$_SESSION['name'];
             $email=$_SESSION['email'];
-            $pass=($_SESSION['pass']);
-            $passs=md5($pass);
-            
-        
-            $insertq="INSERT INTO Signup (name, email,password) VALUES('$name','$email','$pass')";
+
+            //hashing function using md5() function
+            $password = md5($_SESSION['pass']);
+
+            //inserting into login table
+            $insertq="INSERT INTO Signup (name, email,password) VALUES('$name','$email','$password')";
         
             $result=mysqli_query($connections,$insertq);
             if($result){
             header('location:login.php');
             }
             else {
-                    echo "Error: " . mysqli_error($connections);
+            echo "Error: " . mysqli_error($connections);
             }
         
         }

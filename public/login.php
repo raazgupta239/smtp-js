@@ -3,7 +3,7 @@ include('connect.php');
 if($_SERVER["REQUEST_METHOD"]=='POST'){
     $error="";
 $email=$_POST['email'];
-$pas=$_POST['password'];
+$pas=md5($_POST['password']);
 
 $loginq="SELECT * FROM Signup where email='$email' and password='$pas'";
 $result=mysqli_query($connections,$loginq);
